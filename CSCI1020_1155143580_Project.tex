@@ -1,0 +1,1428 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{diagbox}
+\usepackage{comment}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage{graphicx}
+\graphicspath{ {./images/}{../} }
+\usepackage{bookmark}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\ \hmwkAuthorSID}
+\chead{\qquad\qquad\hmwkClass\hmwkClassTime\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Project}
+\newcommand{\hmwkDueDate}{\today}
+\newcommand{\hmwkDoneDate}{\today}
+\newcommand{\hmwkClass}{CSCI1020}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Dr. CHEONG Chi Hong}
+\newcommand{\hmwkAuthorName}{YUEN Yu Ching}
+\newcommand{\hmwkAuthorSID}{1155143580}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle = {\hmwkClass\hmwkClassTime\ \hmwkTitle},
+    pdfauthor = {\hmwkAuthorName \hmwkAuthorSID},
+}
+\urlstyle{same}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass\hmwkClassTime:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ }\\
+    \normalsize\vspace{0.1in}\small{Submitted\ on\ \hmwkDoneDate\ }\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}\\ \hmwkAuthorSID}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+%Probability
+\newcommand{\prob}[1]{\mathrm{P(}\textrm{#1}\mathrm{)}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\rhead{Declaration}
+\noindent\fbox{
+\parbox{\textwidth}{
+I am submitting the assignment for:
+\begin{itemize}
+\item[\rlap{\raisebox{0.3ex}{\hspace{0.4ex}\tiny \ding{52}}}$\square$] an individual project or
+\item[$\square$] a group project on behalf of all members of the group. It is hereby confirmed that the submission is authorized by all members of the group, and all members of the group are required to sign this declaration.
+\end{itemize}
+I/We declare that: 
+\begin{itemize}
+\item[(i)] the assignment here submitted is original except for source material explicitly acknowledged/all members of the group have read and checked that all parts of the piece of work, irrespective of whether they are contributed by individual members or all members as a group, here submitted are original except for source material explicitly acknowledged; 
+\item[(ii)] the piece of work, or a part of the piece of work has not been submitted for more than one purpose (e.g. to satisfy the requirements in two different courses) without declaration; and 
+\item[(iii)] the submitted soft copy with details listed in the \(\langle\)Submission Details\(\rangle\) is identical to the hard copy(ies), if any, which has(have) been / is(are) going to be submitted. 
+\end{itemize}
+I/We also acknowledge that I am/we are aware of the University’s policy and regulations on honesty in academic work, and of the disciplinary guidelines and procedures applicable to breaches of such policy and regulations, as contained in the University website \href{http://www.cuhk.edu.hk/policy/academichonesty/}{\underline{http://www.cuhk.edu.hk/policy/academichonesty/}}.\\
+\\
+\textbf{
+In the case of a group project, we are aware that all members of the group should be held
+responsible and liable to disciplinary actions, irrespective of whether he/she has signed the
+declaration and whether he/she has contributed, directly or indirectly, to the problematic
+contents.
+}\\
+\\
+I/we declare that I/we have not distributed/ shared/ copied any teaching materials without the consent
+of the course teacher(s) to gain unfair academic advantage in the assignment/ course.
+I/We also understand that assignments without a properly signed declaration by the student concerned
+and in the case of a group project, by all members of the group concerned, will not be graded by the
+teacher(s).\\
+\\
+\begin{tabular}{p{0.3\textwidth}p{0.1\textwidth}p{0.3\textwidth}}
+ && \\
+ && \\
+\begin{minipage}{0.2\textwidth}\begin{figure}[H]\includegraphics[scale=0.1]{sign}\end{figure}\end{minipage} && \today\\
+\hrulefill&&\hrulefill\\
+Signature(s) && Date\\
+ && \\
+ && \\
+\hmwkAuthorName && \hmwkAuthorSID\\
+\hrulefill&&\hrulefill\\
+Name(s) && Student ID(s)\\
+ && \\
+ && \\
+\hmwkClass\hmwkClassTime && \\
+\hrulefill && \hrulefill\\
+Course code(s) && Course title\\
+\end{tabular}
+}}
+
+\pagebreak
+\rhead{\firstxmark}
+
+In Part 2, I have implemented some additional features to the Connect 4 game based on Part 1, namely:
+\begin{itemize}
+\item[ - ]{Different difficulties}
+\item[ - ]{Error checking}
+\item[ - ]{Custom player names}
+\item[ - ]{Colored marks}
+\end{itemize}
+
+For the Different Difficulties feature, it is implemented in the \texttt{place()} function of the \texttt{ComputerPlayer} class, which handles how the \texttt{ComputerPlayer} place the mark and the strategy for it. The following strategies corresponds to mode 0-3:
+\begin{itemize}
+\item[ Mode 0: ]{Same as Part 1}
+\item[ Mode 1: ]{Pseudorandom Placement, as determined by \texttt{rand()} from the \texttt{cstdlib} library}
+\item[ Mode 2: ]{Takes the move that let it win in one step, otherwise pseudorandom placement}
+\item[ Mode 3: ]{Blocks the move that let the human player win in one step, otherwise pseudorandom placement}
+\end{itemize}
+The following are sample runs for each mode:\\
+Mode 0:\\
+\begin{Verbatim}[commandchars=\\\{\}]
+How many players (1 or 2)?
+1
+Player 's name [default: "Player"]: Duncan
+Difficulty level [0-3, default 0] :0
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan wins!
+\end{Verbatim}
+Mode 1:\\
+\begin{Verbatim}[commandchars=\\\{\}]
+How many players (1 or 2)?
+1
+Player 's name [default: "Player"]: Duncan
+Difficulty level [0-3, default 0] :1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}|| || || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}|| || || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}|| || || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 5
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}|| || || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}|| || || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || ||\textcolor{blue}{O}|| || || |
+| || ||\textcolor{red}{X}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || ||\textcolor{blue}{O}|| || || |
+| || ||\textcolor{red}{X}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || ||\textcolor{blue}{O}|| || || |
+| || || ||\textcolor{blue}{O}|| || || |
+| || ||\textcolor{red}{X}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan wins!
+\end{Verbatim}
+Mode 2:\\
+\begin{Verbatim}[commandchars=\\\{\}]
+How many players (1 or 2)?
+1
+Player 's name [default: "Player"]: Duncan
+Difficulty level [0-3, default 0] :2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{blue}{O}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 5
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{blue}{O}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer wins!
+\end{Verbatim}
+Mode 3:\\
+\begin{Verbatim}[commandchars=\\\{\}]
+How many players (1 or 2)?
+1
+Player 's name [default: "Player"]: Duncan
+Difficulty level [0-3, default 0] :3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{blue}{O}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 3
+=====================
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| || ||\textcolor{blue}{O}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}|| || || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 5
+=====================
+| || || || || || || |
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 2
+=====================
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}|| || || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+| || || || || || || |
+| || || || || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 3
+=====================
+| || || || || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 3
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| || ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || || |
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 7
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{blue}{O}|
+| ||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}|| ||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 5
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| || ||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| || || |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 6
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| ||\textcolor{blue}{O}|| |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 5
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|| ||\textcolor{blue}{O}|| |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 5
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}|| |
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| || || || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 5
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}|| || |
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 7
+=====================
+| || ||\textcolor{blue}{O}|| || || || |
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}|| ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 7
+=====================
+| || ||\textcolor{blue}{O}|| || || ||\textcolor{blue}{O}|
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}|| ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+| ||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || ||\textcolor{blue}{O}|| || || ||\textcolor{blue}{O}|
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}|| ||\textcolor{red}{X}|
+| ||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || ||\textcolor{blue}{O}|| || || ||\textcolor{blue}{O}|
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}|| ||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || ||\textcolor{blue}{O}|| || || ||\textcolor{blue}{O}|
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 5
+=====================
+| || ||\textcolor{blue}{O}|| ||\textcolor{blue}{O}|| ||\textcolor{blue}{O}|
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 6
+=====================
+| || ||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+| || ||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 2
+=====================
+| || ||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+| ||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || ||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+|\textcolor{blue}{O}|| ||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 2
+=====================
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 4
+=====================
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|| ||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 4
+=====================
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}|
+|\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}|
+|\textcolor{red}{X}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+|\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{blue}{O}||\textcolor{red}{X}||\textcolor{red}{X}|
+=====================
+ 1  2  3  4  5  6  7
+Computer wins!
+\end{Verbatim}
+The source code for this feature is as follows:
+\begin{verbatim}
+    virtual void place(GameBoard& board) {
+        int markColumn = -1;
+        if (hardness == 0) {
+            for (int i = 0; (board.colIsFull(i)); i++) {
+                markColumn = i;
+            }
+            markColumn++;
+        }
+        else if (hardness == 1) {
+            markColumn = rand() % 7;
+            while (board.colIsFull(markColumn)) {
+                markColumn = rand() % 7;
+            }
+        }
+        else if (hardness == 2) {
+            markColumn = Win(board);
+            if (markColumn == -1) {
+                markColumn = rand() % 7;
+                while (board.colIsFull(markColumn)){
+                    markColumn = rand() % 7;
+                }
+            }
+        }
+        else if (hardness == 3) {
+            markColumn = Lose(board);
+            if (markColumn == -1) {
+                markColumn = rand() % 7;
+                while (board.colIsFull(markColumn)) {
+                    markColumn = rand() % 7;
+                }
+            }
+        }
+        board.placeMark(markColumn, mark);
+        cout << name << "'s turn: " << markColumn + 1 << endl;
+    }
+.
+.
+.
+    ConnectFourGame(int numOfPlayers) {
+.
+.
+.
+        string player1name;
+            string input;
+            int difficulty = -1;
+            cout << "Player \'s name [default: \"Player\"]: ";
+            getline(cin, player1name);
+            if (player1name.empty()) {
+                player1name = "Player";
+            }
+            while ((difficulty < 0) || (difficulty > 3)) {
+                cout << "Difficulty level [0-3, default 0] :";
+                getline(cin,input);
+                if (input.empty()) {
+                    difficulty = 0;
+                }
+                else {
+                    difficulty = stoi(input);
+                }
+                if ((difficulty < 0) || (difficulty > 3)) {
+                    cout << "Invalid difficulty, please try again..."<< endl;
+                }
+.
+.
+.
+    }
+\end{verbatim}
+\pagebreak
+For the error checking feature, I have divided the invalid input to three types:
+\begin{itemize}
+\item[1.]{Column specified is too small}
+\item[2.]{Column specified is too big}
+\item[3.]{Column specified is full}
+\end{itemize}
+Based on these three types of invalid input, there will be different types of error message as shown in the sample below:
+\begin{Verbatim}[commandchars=\\\{\}]
+How many players (1 or 2)?
+1
+Player 's name [default: "Player"]: Duncan
+Difficulty level [0-3, default 0] :0
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Computer's turn: 1
+=====================
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+Invalid input: Column 1 is full
+Please enter another column:0
+Invalid input: Column 0 is too small and does not exist
+Please enter another column:9
+Invalid input: Column 9 is too big and does not exist
+Please enter another column:2
+=====================
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || || |
+=====================
+ 1  2  3  4  5  6  7
+\end{Verbatim}
+The source code for this checking is handled in the \texttt{place()} function for the \texttt{Player} class as follows:
+\begin{verbatim}
+    virtual void place(GameBoard& board1) {
+        int column;
+        cout << name << ", your turn: ";
+        cin >> column;
+        while ((board1.colIsFull(column-1)) || (column < 1) || (column
+> 7)) {
+            cout << "Invalid input: Column " << column;
+            if (column < 1){
+                cout << " is too small and does not exist";
+            } else if (column > 7){
+                cout << " is too big and does not exist";
+            } else if (board1.colIsFull(column-1)){
+                cout << " is full";
+            }
+            cout << endl;
+            cout << "Please enter another column:";
+            cin >> column;
+        }
+        (board1.placeMark(column - 1, mark));
+        return;
+    }
+\end{verbatim}
+\pagebreak
+As seen above, the user is able to specify a name in the beginning of each game. The above sample runs demonstrates the case for only one player. The sample run below is the case for two players:
+\begin{Verbatim}[commandchars=\\\{\}]
+How many players (1 or 2)?
+2
+Player 1's name [default: "Player 1"]: Duncan
+Player 2's name [default: "Player 2"]: Albert
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Duncan, your turn: 1
+=====================
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+| || || || || || || |
+|\textcolor{blue}{O}|| || || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Albert, your turn:
+...
+=====================
+| || || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}|| || || || || || |
+|\textcolor{red}{X}||\textcolor{blue}{O}|| || || || || |
+|\textcolor{red}{X}||\textcolor{blue}{O}|| || || || || |
+|\textcolor{blue}{O}||\textcolor{blue}{O}|| || || || || |
+=====================
+ 1  2  3  4  5  6  7
+Albert wins!
+\end{Verbatim}
+This is done by giving a different value to the \texttt{name} member of each \texttt{Player} pbject during initialization. By calling the \texttt{getName()} function of each object, the game is able to print out the different custom name for each player, as shown in the below source code:
+\begin{verbatim}
+class Player {
+.
+.
+.
+    string getName() {
+        return name;
+    }
+}
+.
+.
+.
+class HumanPlayer : public Player {
+public:
+    HumanPlayer(string inname, char inmark) {
+        name = inname;
+        mark = inmark;
+    }
+};
+.
+.
+.
+    ConnectFourGame(int numOfPlayers) {
+        if (numOfPlayers == 2) {
+            string player1name;
+            string player2name;
+            cout << "Player 1's name [default: \"Player 1\"]: ";
+            getline(cin, player1name);
+            if (player1name.empty()) {
+                player1name = "Player 1";
+            }
+            cout << "Player 2's name [default: \"Player 2\"]: ";
+            getline(cin, player2name);
+            if (player2name.empty()) {
+                player2name = "Player 2";
+            }
+            player0 = new HumanPlayer(player1name, 'O');
+            player1 = new HumanPlayer(player2name, 'X');
+        }
+        else {
+            string player1name;
+            string input;
+            int difficulty = -1;
+            cout << "Player \'s name [default: \"Player\"]: ";
+            getline(cin, player1name);
+            if (player1name.empty()) {
+                player1name = "Player";
+            }
+.
+.
+.
+\end{verbatim}
+\pagebreak
+Last but not least, the above samples demonstrates that the marks are colored in the console output. This is done by using the Windows Console API's \texttt{SetConsoleTextAttribute()} function. The following lines of code is responsible for this feature:
+\begin{verbatim}
+    void display() {
+        cout << "=====================" << endl;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                cout << "|";
+                HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+                if (board[i][j] == 'O') {
+                    SetConsoleTextAttribute(hOut, FOREGROUND_INTENSITY);
+                    SetConsoleTextAttribute(hOut, FOREGROUND_BLUE);
+                    //cout << "\0x1B[34m";
+                } else if (board[i][j] == 'X') {
+                    SetConsoleTextAttribute(hOut, FOREGROUND_INTENSITY);
+                    SetConsoleTextAttribute(hOut, FOREGROUND_RED);
+                    //cout << "\0x1B[31m";
+                }
+                cout << board[i][j];
+                if ((board[i][j] == 'O') || (board[i][j] == 'X')) {
+                    SetConsoleTextAttribute(hOut, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+                }
+                //cout << "\0x1B[37m";
+                cout << "|";
+            }
+            cout << endl;
+        }
+        cout << "=====================" << endl;
+                for (int i = 1; i < 8; i++) {
+            cout << " " << i << " ";
+        }
+        cout << endl;
+    }
+\end{verbatim}
+\pagebreak
+\section{Reference}
+cstdlib rand(): \url{https://www.cplusplus.com/reference/cstdlib/rand/}\\
+Windows Console API: \url{https://docs.microsoft.com/en-us/windows/console/setconsoletextattribute}
+\end{document}
